@@ -1,0 +1,37 @@
+From 837c5a3e752e8e4fcd2d98c210f049d445ed68ac Mon Sep 17 00:00:00 2001
+From: Tan Shen Joon <shen.joon.tan@intel.com>
+Date: Mon, 29 Jul 2019 16:19:13 +0800
+Subject: [PATCH] change mesontest to two words
+
+since 'mesontest' had been deprecated in 0.42 onwards,
+we should use 'meson test'.
+
+Signed-off-by: Tan Shen Joon <shen.joon.tan@intel.com>
+---
+ configure | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/configure b/configure
+index 0501157..0e2aea3 100755
+--- a/configure
++++ b/configure
+@@ -78,7 +78,6 @@ echooption() {
+ }
+ 
+ sanitycheck MESON 'meson'
+-sanitycheck MESONTEST 'mesontest'
+ sanitycheck NINJA 'ninja' 'ninja-build'
+ 
+ declare -A default_options=(
+@@ -143,7 +142,7 @@ install:
+ 	DESTDIR="\$(DESTDIR)" ${NINJA} ${NINJA_OPT} install
+ 
+ check:
+-	${MESONTEST} ${NINJA_OPT}
++	${MESON} test ${NINJA_OPT}
+ END
+ 
+ echo "
+-- 
+2.22.0.643.g3034dab9ed
+

@@ -4,22 +4,22 @@
 #
 Name     : libgepub
 Version  : 0.6.0
-Release  : 6
+Release  : 7
 URL      : https://github.com/GNOME/libgepub/archive/0.6.0.tar.gz
 Source0  : https://github.com/GNOME/libgepub/archive/0.6.0.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-2.0
-Requires: libgepub-data
-Requires: libgepub-lib
-BuildRequires : glibc-bin
-BuildRequires : gobject-introspection
+Requires: libgepub-data = %{version}-%{release}
+Requires: libgepub-lib = %{version}-%{release}
+Requires: libgepub-license = %{version}-%{release}
+BuildRequires : buildreq-meson
 BuildRequires : gobject-introspection-dev
-BuildRequires : meson
-BuildRequires : ninja
+BuildRequires : libarchive-dev
 BuildRequires : pkgconfig(libarchive)
 BuildRequires : pkgconfig(webkit2gtk-4.0)
-BuildRequires : python3
+BuildRequires : webkitgtk-dev
+Patch1: 0001-change-mesontest-to-two-words.patch
 
 %description
 What is libgepub
@@ -38,9 +38,10 @@ data components for the libgepub package.
 %package dev
 Summary: dev components for the libgepub package.
 Group: Development
-Requires: libgepub-lib
-Requires: libgepub-data
-Provides: libgepub-devel
+Requires: libgepub-lib = %{version}-%{release}
+Requires: libgepub-data = %{version}-%{release}
+Provides: libgepub-devel = %{version}-%{release}
+Requires: libgepub = %{version}-%{release}
 
 %description dev
 dev components for the libgepub package.
@@ -49,27 +50,47 @@ dev components for the libgepub package.
 %package lib
 Summary: lib components for the libgepub package.
 Group: Libraries
-Requires: libgepub-data
+Requires: libgepub-data = %{version}-%{release}
+Requires: libgepub-license = %{version}-%{release}
 
 %description lib
 lib components for the libgepub package.
 
 
+%package license
+Summary: license components for the libgepub package.
+Group: Default
+
+%description license
+license components for the libgepub package.
+
+
 %prep
 %setup -q -n libgepub-0.6.0
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1522119926
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1564557471
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1522119926
+export SOURCE_DATE_EPOCH=1564557471
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/libgepub
+cp COPYING %{buildroot}/usr/share/package-licenses/libgepub/COPYING
 %make_install
 
 %files
@@ -94,3 +115,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib64/libgepub-0.6.so.0
 /usr/lib64/libgepub-0.6.so.0.0.0
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libgepub/COPYING
