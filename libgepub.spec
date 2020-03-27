@@ -4,7 +4,7 @@
 #
 Name     : libgepub
 Version  : 0.6.0
-Release  : 7
+Release  : 8
 URL      : https://github.com/GNOME/libgepub/archive/0.6.0.tar.gz
 Source0  : https://github.com/GNOME/libgepub/archive/0.6.0.tar.gz
 Summary  : No detailed summary available
