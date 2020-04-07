@@ -4,7 +4,7 @@
 #
 Name     : libgepub
 Version  : 0.6.0
-Release  : 8
+Release  : 9
 URL      : https://github.com/GNOME/libgepub/archive/0.6.0.tar.gz
 Source0  : https://github.com/GNOME/libgepub/archive/0.6.0.tar.gz
 Summary  : No detailed summary available
@@ -67,6 +67,7 @@ license components for the libgepub package.
 
 %prep
 %setup -q -n libgepub-0.6.0
+cd %{_builddir}/libgepub-0.6.0
 %patch1 -p1
 
 %build
@@ -74,23 +75,23 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1564557471
+export SOURCE_DATE_EPOCH=1586240407
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1564557471
+export SOURCE_DATE_EPOCH=1586240407
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libgepub
-cp COPYING %{buildroot}/usr/share/package-licenses/libgepub/COPYING
+cp %{_builddir}/libgepub-0.6.0/COPYING %{buildroot}/usr/share/package-licenses/libgepub/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
 %make_install
 
 %files
@@ -118,4 +119,4 @@ cp COPYING %{buildroot}/usr/share/package-licenses/libgepub/COPYING
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libgepub/COPYING
+/usr/share/package-licenses/libgepub/bf50bac24e7ec325dbb09c6b6c4dcc88a7d79e8f
